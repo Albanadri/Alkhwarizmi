@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Alkhwarizmi</title>
+ <style>
+  body {
+   margin: 0;
+   font-family: 'Segoe UI', sans-serif;
+   direction: rtl;
+   background-color: white;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   color: #0d0d8a; /* تغيير اللون الافتراضي للنصوص إلى الأزرق الداكن الموحد */
+  }
+
+  /* الشريط العلوي */
+  .navbar {
+   background-color: #6ab1f7;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 30px;
+   color: white;
+  }
+
+  .navbar nav a {
+   margin: 0 10px;
+   text-decoration: none;
+   color: white;
+   font-weight: bold;
+   position: relative;
+  }
+
+  .navbar .logo img {
+   height: 40px;
+  }
+
+  .navbar .search {
+   display: flex;
+   align-items: center;
+   gap: 5px;
+  }
+
+  .navbar .search input {
+   padding: 5px;
+   border-radius: 5px;
+   border: none;
+  }
+
+  /* قائمة الدورات */
+  .dropdown {
+   position: relative;
+   display: inline-block;
+  }
+
+  .dropdown-content {
+   display: none;
+   position: absolute;
+   top: 30px;
+   right: 0;
+   background-color: rgb(180, 204, 228);
+   border-radius: 10px;
+   
+   z-index: 1000;
+   min-width: 180px;
+  }
+
+  .dropdown-content a {
+   display: block;
+   padding: 10px 15px;
+   text-decoration: none;
+   color: #0a3f87;
+   font-weight: bold;
+  }
+
+  .dropdown-content a:hover {
+   background-color: #c3cdd9;
+  }
+
+  /* البانر */
+  .banner {
+   background: url('https://i.postimg.cc/8P1rkJCF/5778526705042966728-121.jpg') no-repeat center center;
+   background-size: cover;
+   padding: 60px 30px;
+   color: rgb(255, 253, 253);
+   position: relative;
+  }
+
+  .banner-content {
+   max-width: 600px;
+  }
+
+  .banner h2 {
+   font-size: 24px;
+   margin-bottom: 10px;
+  }
+
+  .banner p {
+   font-size: 16px;
+   margin-bottom: 20px;
+  }
+
+  .banner .buttons {
+   display: flex;
+   gap: 15px;
+  }
+
+  .banner .buttons a {
+   text-decoration: none;
+   padding: 10px 20px;
+   border-radius: 20px;
+   font-weight: bold;
+  }
+
+  .btn-primary {
+   background-color: #043eaa;
+   color: rgb(254, 252, 251);
+  }
+
+  .btn-light {
+   background-color: white;
+   color: #07267d;
+   border: 1px solid #012961;
+  }
+
+  /* بداية تنسيقات صفحة التدريب (لضمان عملها بشكل جيد مع باقي الصفحة) */
+  .content-section { /* تم تغيير اسم الكلاس لتجنب التضارب */
+   font-family: Arial, sans-serif;
+   background-color: #e3eff8;
+   line-height: 1.8;
+   padding-bottom: 20px; /* إضافة مسافة سفلية قبل القسم التالي */
+  }
+  .container {
+   max-width: 1200px;
+   margin: 0 auto;
+   padding: 20px;
+  }
+  .section-training { /* تم تغيير اسم الكلاس لتجنب التضارب */
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   background: none;
+   padding: 20px;
+   border-radius: 10px;
+   margin-bottom: 20px;
+  }
+  .section-training > div {
+   flex: 1;
+  }
+  .section-training .steps {
+   margin-right: 20px;
+  }
+  .steps h3, .info-training h3 { /* تم تعديل الكلاس هنا */
+   font-size: 1.5em;
+   margin-bottom: 15px;
+   color: black; /* لون أسود لعناوين "لماذا هذه الدورات؟" و "3 خطوات للتدرب معنا" */
+  }
+  .step {
+   display: flex;
+   align-items: flex-start;
+   margin-bottom: 20px;
+  }
+  .step-number {
+   width: 40px;
+   height: 40px;
+   background-color: #cddff3;
+   color: #020519;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 1.2em;
+   margin-left: 10px;
+   color: black; /* لون أسود لأرقام الخطوات */
+  }
+  .info-training { /* تم تغيير اسم الكلاس لتجنب التضارب */
+   text-align: right;
+  }
+  .info-training p {
+   margin-bottom: 15px;
+   color: #0d0d8a; /* لون أزرق موحد */
+  }
+  .partners-section { /* تم تغيير اسم الكلاس لتجنب التضارب */
+   text-align: center;
+   margin-top: 20px;
+  }
+  .partners-section h3 {
+   margin-bottom: 15px;
+  }
+  .partners-section img {
+   max-height: 50px;
+   margin: 0 10px;
+   vertical-align: middle;
+  }
+  .branches-title {
+   text-align: center;
+   font-size: 1.5em;
+   margin-top: 20px;
+  }
+  /* نهاية تنسيقات صفحة التدريب */
+
+  /* تنسيقات قسم "شرح الفائدة ال
+
+A ., [02/02/47 11:17 ص]
+رئيسية" */
+  .textbox {
+   padding: 20px;
+   background-color:none; /* لون خلفية مختلف لتمييزه */
+   margin-left: auto; /* يدفع الصندوق لليمين */
+   margin-right: 20px; /* هامش من اليمين للمسافة */
+   max-width: 1000px;
+   border-radius: 10px;    }
+  .textbox h3 {
+   color: #0a3f87;
+   text-align: right;
+   margin-bottom: 15px;
+  }
+  .textbox ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   text-align: right; /* محاذاة القائمة لليمين */
+  }
+  .textbox li {
+   margin-bottom: 10px;
+   padding-right: 20px;
+   position: relative;
+   color: #0d0d8a; /* لون أزرق موحد */
+  }
+  .textbox li::before {
+   content: "•"; /* نقطة كعلامة قائمة */
+   color: #385e87; /* لون النقطة */
+   font-weight: bold;
+   display: inline-block;
+   width: 1em;
+   margin-left: -1em;
+  }
+  .textbox .image {
+   display: flex; /* لترتيب الصور بجانب بعضها */
+   gap: 40px; /* مسافة بين الصور */
+   justify-content: flex-start; /* تم التعديل هنا: دفع الصور إلى اليمين في RTL */
+   margin-top: 20px;
+  }
+  .textbox .image img { /* استخدام عنصر img لعرض الصور */
+   border-radius: 5px; /* لجعل الصور تبدو أفضل */
+   border: none; /* إزالة الحدود */
+   box-shadow: none; /* إزالة الظل الأسود */
+   width: 70px;
+   height: 70px;
+   object-fit: contain; /* للحفاظ على أبعاد الصورة داخل الحاوية */
+  }
+
+  /* تنسيقات قسم "لماذا هذه الدورات؟" (تم دمجها مع التنسيقات العامة) */
+  .section-why-courses { /* تم تغيير اسم الكلاس */
+   background-color: #eaf3fc; /* لون الخلفية السماوي يغطي الصفحة بأكملها */
+   padding: 20px;
+  }
+  .section-why-courses .info {
+   margin-left: 20px;
+  }
+  .section-why-courses .info p {
+   color: #0d0d8a; /* لون أزرق موحد */
+  }
+
+  /* الفوتر */
+  .footer {
+   width: 100%;
+   background-color: #113BCE;
+   border-top-left-radius: 40px;
+   border-top-right-radius: 40px;
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   padding: 50px 100px;
+   box-sizing: border-box;
+   color: white;
+   gap: 40px;
+   /* position: relative; تم إزالة هذه الخاصية */
+   margin-top: auto; /* يدفع الفوتر للأسفل في صفحة flex-column */
+  }
+
+  .footer-section {
+   flex: 1;
+   font-size: 15px;
+  }
+
+  .footer-section.right {
+   text-align: right;
+   line-height: 2;
+  }
+
+  .footer-section.center {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+  }
+
+  .footer-section.center img {
+   width: 130px;
+   border-radius: 15px;
+   margin-top: 10px;
+  }
+
+  .footer-section.left {
+   text-align: left;
+   line-height: 2;
+  }
+
+  .footer-section.right h4 {
+   transform: translateX(-30px);
+  }
+
+  .footer-section.left h4 {
+   transform: translateX(30px);
+  }
+
+  .footer-bottom {
+   background-color: #113BCE;
+   color: white;
+   font-size: 12px;
+   padding: 10px 20px;
+   text-align: right;
+   direction: rtl;
+   border-top: 1px solid rgba(255, 255, 255, 0.4);
+   display: flex; /* لترتيب العناصر بشكل أفقي */
+   justify-content: space-between; /* لتباعد العناصر */
+   align-items: center;
+   flex-wrap: wrap; /* للسماح بالعناصر بالنزول لسطر جديد على الشاشات الصغيرة */
+  }
+
+  /* قسم شركاء النجاح والخريطة */
+  .partners-map-section {
+   font-family: 'Tahoma', sans-serif;
+   margin: 0;
+   padding: 0;
+   background-color: #ffffff;
+   direction: rtl;
+   text-align: right;
+  }
+
+  .partners-map-section .section-content { /* تم إضافة هذا الكلاس لتنسيق محتوى القسم */
+   padding: 40px 20px;
+   text-align: center;
+  }
+
+  .partners-map-section h2 {
+   font-size: 35px;
+   margin-bottom: 30px;
+   color: #0b0501;
+   font-family: sans-serif;
+  }
+
+  .partners {
+   display: flex;
+   justify-content: center;
+   flex-wrap: wrap;
+   gap: 30px;
+   margin-bottom: 40px;
+  }
+
+  .partners img {
+   width: 100px;
+   height: auto;
+   transition: transform 0.3s ease;
+  }
+
+  .partners img:hover {
+   transform: scale(1.1);
+  }
+
+  .map {
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   display: block;
+  }
+
+  .map iframe {
+   width: 100%;
+   height: 500px;
+   border: 0;
+   display: block;
+  }
+ </style>
+</head>
+<body>
+
+ <div class="navbar">
+  <div class="logo">
+   <img src="https://i.postimg.cc/CxwyQ0mp/5778526705042966733-120.jpg" style="opacity: 0.6;" alt="شعار">
+  </div>
+  <nav>
+
+
+<a href="#">الرئيسية</a>
+   <a href="#">الخدمات</a>
+   <a href="#">الفروع</a>
+
+   <div class="dropdown">
+    <a href="javascript:void(0);" onclick="toggleDropdown()">الدورات</a>
+    <div class="dropdown-content" id="dropdownMenu">
+     <a href="#">الشهادات الاحترافية</a>
+     <a href="#">البرامج و الدبلومات</a>
+     <a href="#">الحاسب الآلي</a>
+     <a href="#">اللغة الإنجليزية</a>
+    </div>
+   </div>
+
+   <a href="#">الدفع</a>
+  </nav>
+  <div class="search">
+   <input type="text" placeholder="بحث">
+   <img src="https://i.postimg.cc/wvXZVbLj/Whats-App-Image-2025-07-27-at-10-28-15-AM.jpg" style="width: 20px; height: 20px;" alt="شعار">
+  </div>
+ </div>
+
+ <div class="banner">
+  <div class="banner-content">
+   <h2>من نحن؟</h2>
+   <p>معهد الخوارزمي مؤسسة علمية مختصة بتدريب الكوادر على استخدام الحاسوب والدورات الإدارية والتربوية ومنح شهادات رسمية مصدقة ومعترف بها محليا ودوليا</p>
+   <div class="buttons">
+    <a href="#" class="btn-light">تحميل التطبيق</a>
+    <a href="#" class="btn-primary">دخول المستخدم</a>
+   </div>
+  </div>
+ </div>
+
+ <div class="textbox">
+  <h3>شرح الفائدة الرئيسية لتطبيقنا</h3>
+  <ul>
+   <li>
+    يساعدك موقعنا على عرض الدورات التدريبية المتاحة في معهد الخوارزمي للتدريب، مما يسهل عليك اختيار الدورة المناسبة لك.
+   </li>
+   <li>
+    الحصول على الشهادات الاحترافية المطلوبة للوظائف والأغراض الأخرى.
+   </li>
+   <li>
+    التسجيل للسنوات الأكاديمية لتخصصات مختلفة (لمدة عامين ونصف)
+   </li>
+  </ul>
+  <div class="image">
+   <img src="https://i.postimg.cc/d1p4PRFT/5778526705042966722-121.jpg" alt="محتويات الشركات">
+   <img src="https://i.postimg.cc/jqnM6166/5778526705042966724-120.jpg" alt="شكوى أو استفسارات">
+   <img src="https://i.postimg.cc/5NwpTFR6/5778526705042966723-121.jpg" alt="تواصل معنا">
+  </div>
+ </div>
+ 
+
+ <div class="content-section">
+  <div class="container">
+   <div class="section-training">
+    <div class="info-training">
+     <h3 style="color: black;">لماذا هذه الدورات؟</h3>
+     <p>تعد الدورات التدريبية من الركائز الأساسية لتطوير الفرد في مسيرته المهنية فهي لا تقتصر على تعزيز المعرفة النظرية، بل تفتح آفاقًا جديدة للتطبيق العملي، وتمنح الموظف أدوات حديثة لمواكبة التغيرات المتسارعة في سوق العمل.</p>
+     <p>من خلال الدورات يستطيع الفرد تنمية مهاراته، سواء كانت تقنية، إدارية، أو تواصلية، مما يرفع من كفاءته وإنتاجيته.</p>
+    </div>
+    <div class="steps">
+     <h3 style="color: black;">3 خطوات للتدرب معنا</h3>
+     <div class="step">
+      <div class="step-number" style="color: black;">1</div>
+      <p>سجل معنا<br>سجل بياناتك المطلوبة وتأكد منها للحصول على شهادتك بالشكل الصحيح</p>
+     </div>
+     <div class="step">
+      <div class="step-number" style="color: black;">2</div>
+      <p>اختر الدورة التدريبية<br>اختر الدورات التي تناسبك حيث تعتبر دوراتنا من أقوى الدورات في عالم التوظيف والتقنية</p>
+     </div>
+     <div class="step">
+      <div class="step-number" style="color: black;">3</div>
+      <p>احصل على الشهادة<br>احصل على شهاداتك التدريبية فور انتهاء الدورة معتمدة من الجهات الرسمية ومفيدة في التوظيف والترقيات</p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div class="partners-map-section">
+  <div class="section-content">
+   <h2>شركاء النجاح</h2>
+   <div class="partners">
+    <img src="https://i.postimg.cc/Sx7Gg2Kk/image.png" alt="Tabby" class="image">
+    <img src="https://i.postimg.cc/NfRVw00P/image.jpg" alt="منار" class="image">
+    <img src="https://i.postimg.cc/CxzqqRfc/images.jpg" alt="هدف" class="image">
+    <img src="https://i.postimg.cc/RCJCKwP6/5778526705042966761-121-1.png" alt="منصة ماهر" class="image">
+   </div>
+  </div>
+  <h2 class="branches-title"></h2>
+  <div class="map">
+   <iframe
+    src="https://www.google.com/maps?q=21.4401974,40.4809214&hl=ar&z=16&output=embed"
+    width="100%"
+    height="450"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+   </iframe>
+  </div>
+ </div>
+
+ <div class="footer">
+  <div class="footer-section right">
+   <h4>أوقات الدوام الرسمية</h4>
+   <div style="display: flex; justify-content: space-between;">
+    <span>⏰ الأحد - الأربعاء</span>
+    <span>8-12م  4-10م</span>
+   </div>
+
+<div style="display: flex; justify-content: space-between;">
+    <span>⏰ الخميس</span>
+    <span>8-12م  4-8م</span>
+   </div>
+   <div style="display: flex; justify-content: space-between;">
+    <span>⏰ الجمعة</span>
+    <span>مغلق</span>
+   </div>
+   <div style="display: flex; justify-content: space-between;">
+    <span>⏰ السبت</span>
+    <span>مغلق</span>
+   </div>
+  </div>
+
+  <div class="footer-section center">
+   <h4>طرق الدفع المتاحة</h4>
+   <img src="https://i.postimg.cc/L59G5B7Q/6024073103501544200-120.jpg" alt="طرق الدفع">
+  </div>
+
+  <div class="footer-section left">
+   <h4>تواصل معنا</h4>
+   <p>📧 info@alkhwarzmi.com</p>
+   <p>📱 0544460046</p>
+   <p>📞 0127480004</p>
+  </div>
+ </div>
+
+ <div class="footer-bottom">
+  <div>
+   © 2025 جميع الحقوق محفوظة لدى
+   <a href="https://alkhwarzmi.com" target="_blank" style="color: white; text-decoration: underline;">
+   معهد الخوارزمي للتدريب
+   </a>.
+  </div>
+  <div>
+   <a href="https://laser-ksa.com" target="_blank" style="color: white; text-decoration: underline;">
+   laser-ksa.com
+   </a>
+  </div>
+ </div>
+
+ <script>
+  function toggleDropdown() {
+   var menu = document.getElementById("dropdownMenu");
+   menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  }
+
+  document.addEventListener("click", function (event) {
+   var dropdown = document.querySelector(".dropdown");
+   if (!dropdown.contains(event.target)) {
+    document.getElementById("dropdownMenu").style.display = "none";
+   }
+  });
+ </script>
+
+</body>
+</html>
